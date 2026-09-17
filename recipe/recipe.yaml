@@ -1,0 +1,57 @@
+schema_version: 1
+
+context:
+  name: radtraq
+  version: "0.0.9"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/RadTraQ-${{ version }}.tar.gz
+  sha256: 1ac8bde0e918cbb610b1a73f54d10132c94ae1d2caf2db14db1aa1a8dea861d8
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - pandas
+    - act-atmos
+    - numpy
+    - scipy
+    - xarray
+    - matplotlib-base
+    - netcdf4
+    - pint
+    - open-radar-data
+
+tests:
+  - python:
+      imports:
+        - radtraq
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Python package for weather radar quality tracking
+  license: BSD-3-Clause
+  license_file: LICENSE
+  homepage: https://github.com/ARM-Development/RadTraQ/
+
+extra:
+  recipe-maintainers:
+    - AdamTheisen
+    - akrherz
+    - mgrover1
+    - zssherman
